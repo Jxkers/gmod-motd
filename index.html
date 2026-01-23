@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Server MOTD</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: rgba(0,0,0,0.6);
+        font-family: Arial, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+
+    .motd {
+        width: 800px;
+        max-width: 95%;
+        height: 480px;
+        background: #121212;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 25px rgba(0,0,0,0.9);
+        display: flex;
+        animation: fadeIn 0.3s ease;
+        position: relative;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    .close {
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        font-size: 20px;
+        cursor: pointer;
+        color: #aaa;
+        z-index: 5;
+    }
+
+    .close:hover {
+        color: #ff4c4c;
+    }
+
+    .sidebar {
+        width: 220px;
+        background: #181818;
+        padding-top: 40px;
+        box-sizing: border-box;
+    }
+
+    .sidebar button {
+        width: 90%;
+        margin: 8px 10px;
+        padding: 10px;
+        background: #222;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+        text-align: left;
+        border-radius: 4px;
+        transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .sidebar button:hover {
+        background: #4a7cff;
+        box-shadow: 0 0 8px rgba(74,122,255,0.6);
+    }
+
+    .content {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+
+        background-image: linear-gradient(
+            rgba(0,0,0,0.6),
+            rgba(0,0,0,0.6)
+        ),
+        url("https://i.imgur.com/l6shDP8.png");
+
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        animation: slideIn 0.25s ease;
+    }
+
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateX(10px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    a {
+        color: #4a7cff;
+        text-decoration: none;
+    }
+</style>
+
+<script>
+function load(tab) {
+    const c = document.getElementById("content");
+    c.style.opacity = 0;
+
+    setTimeout(() => {
+
+        if (tab === "rules") {
+            c.innerHTML = `
+                <h2>Rules</h2>
+                <ul>
+                    <li>No RDM</li>
+                    <li>No cheating</li>
+                    <li>Respect staff</li>
+                </ul>
+            `;
+        }
+
+        if (tab === "discord") {
+            c.innerHTML = `
+                <h2>Discord</h2>
+                <p>
+                    <a href="https://discord.gg/YOURINVITE" target="_blank">
+                        Join our Discord
+                    </a>
+                </p>
+            `;
+        }
+
+        if (tab === "shop") {
+            c.innerHTML = `
+                <h2>Shop</h2>
+                <p>
+                    <a href="https://yourshoplink.com" target="_blank">
+                        Open the Shop
+                    </a>
+                </p>
+            `;
+        }
+
+        if (tab === "updates") {
+            c.innerHTML = `
+                <h2>Updates / Changelog</h2>
+                <b>v1.2</b> – Added new weapons<br>
+                <b>v1.1</b> – Performance improvements<br>
+                <b>v1.0</b> – Server launch
+            `;
+        }
+
+        if (tab === "workshop") {
+            c.innerHTML = `
+                <h2>Steam Workshop</h2>
+                <p>
+                    <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=WORKSHOPID" target="_blank">
+                        View Workshop Collection
+                    </a>
+                </p>
+            `;
+        }
+
+        if (tab === "group") {
+            c.innerHTML = `
+                <h2>Steam Group</h2>
+                <p>
+                    <a href="https://steamcommunity.com/groups/YOURGROUP" target="_blank">
+                        Join our Steam Group
+                    </a>
+                </p>
+            `;
+        }
+
+        c.style.opacity = 1;
+    }, 120);
+}
+
+function closeMOTD() {
+    document.body.style.display = "none";
+}
+
+window.onload = () => load("rules");
+</script>
+</head>
+
+<body>
+
+<div class="motd">
+    <div class="close" onclick="closeMOTD()">✕</div>
+
+    <div class="sidebar">
+        <button onclick="load('rules')">Rules</button>
+        <button onclick="load('discord')">Discord</button>
+        <button onclick="load('shop')">Shop</button>
+        <button onclick="load('updates')">Updates</button>
+        <button onclick="load('workshop')">Workshop</button>
+        <button onclick="load('group')">Steam Group</button>
+    </div>
+
+    <div class="content" id="content">
+        Loading...
+    </div>
+</div>
+
+</body>
+</html>
