@@ -8,203 +8,215 @@
     body {
         margin: 0;
         height: 100vh;
-        background: rgba(0,0,0,0.6);
         font-family: Arial, sans-serif;
+        background: #0b0f14;
+        color: #d6d6d6;
+    }
+
+    /* Header */
+    .header {
+        height: 60px;
+        background: linear-gradient(90deg, #633aa5, #2c4f78);
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        font-size: 24px;
+        font-weight: bold;
         color: white;
-    }
-
-    .motd {
-        width: 800px;
-        max-width: 95%;
-        height: 480px;
-        background: #121212;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 0 25px rgba(0,0,0,0.9);
-        display: flex;
-        animation: fadeIn 0.3s ease;
-        position: relative;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
-    }
-
-    .close {
-        position: absolute;
-        top: 8px;
-        right: 12px;
-        font-size: 20px;
-        cursor: pointer;
-        color: #aaa;
-        z-index: 5;
-    }
-
-    .close:hover {
-        color: #ff4c4c;
-    }
-
-    .sidebar {
-        width: 220px;
-        background: #181818;
-        padding-top: 40px;
+        letter-spacing: 1px;
         box-sizing: border-box;
     }
 
-    .sidebar button {
-        width: 90%;
-        margin: 8px 10px;
+    .welcome {
+        font-size: 13px;
+        font-weight: normal;
+        opacity: 0.85;
+    }
+
+    /* Layout */
+    .container {
+        display: flex;
+        height: calc(100vh - 60px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 300px;
+        background: #151a21;
         padding: 10px;
-        background: #222;
-        border: none;
-        color: white;
+        box-sizing: border-box;
+    }
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        margin-bottom: 6px;
         cursor: pointer;
-        font-size: 14px;
-        text-align: left;
         border-radius: 4px;
-        transition: background 0.2s, box-shadow 0.2s;
+        transition: background 0.15s;
     }
 
-    .sidebar button:hover {
-        background: #4a7cff;
-        box-shadow: 0 0 8px rgba(74,122,255,0.6);
+    .nav-item:hover {
+        background: #1e2633;
     }
 
+    .nav-item.active {
+        background: #892fff;
+        color: white;
+    }
+
+    .nav-icon {
+        width: 36px;
+        text-align: center;
+        font-size: 20px;
+        opacity: 0.9;
+    }
+
+    .nav-text {
+        margin-left: 10px;
+    }
+
+    .nav-title {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .nav-desc {
+        font-size: 12px;
+        opacity: 0.7;
+    }
+
+    /* Content */
     .content {
         flex: 1;
-        padding: 20px;
+        padding: 25px;
+        background: #0f141b;
+        box-sizing: border-box;
         overflow-y: auto;
-
-        background-image: linear-gradient(
-            rgba(0,0,0,0.6),
-            rgba(0,0,0,0.6)
-        ),
-        url("https://i.imgur.com/l6shDP8.png");
-
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-
-        animation: slideIn 0.25s ease;
     }
 
-    @keyframes slideIn {
-        from { opacity: 0; transform: translateX(10px); }
-        to { opacity: 1; transform: translateX(0); }
-    }
-
-    a {
-        color: #4a7cff;
-        text-decoration: none;
+    h2 {
+        margin-top: 0;
+        color: white;
     }
 </style>
 
 <script>
-function load(tab) {
+/* Steam name greeting (safe fallback) */
+function getSteamName() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("name") || "Player";
+}
+
+function openLink(url) {
+    window.open(url, "_blank");
+}
+
+function setActive(el) {
+    document.querySelectorAll(".nav-item").forEach(e => e.classList.remove("active"));
+    el.classList.add("active");
+}
+
+function loadPage(page, el) {
+    setActive(el);
     const c = document.getElementById("content");
-    c.style.opacity = 0;
 
-    setTimeout(() => {
+    if (page === "motd") {
+        c.innerHTML = `
+            <h2>Message of the Day</h2>
+            Welcome to <b>Three Kings Murder</b>.<br><br>
+            Please read the rules before playing and enjoy your stay.
+        `;
+    }
 
-        if (tab === "rules") {
-            c.innerHTML = `
-                <h2>Rules</h2>
-                <ul>
-                    <li>No RDM</li>
-                    <li>No cheating</li>
-                    <li>Respect staff</li>
-                </ul>
-            `;
-        }
-
-        if (tab === "discord") {
-            c.innerHTML = `
-                <h2>Discord</h2>
-                <p>
-                    <a href="https://discord.gg/YOURINVITE" target="_blank">
-                        Join our Discord
-                    </a>
-                </p>
-            `;
-        }
-
-        if (tab === "shop") {
-            c.innerHTML = `
-                <h2>Shop</h2>
-                <p>
-                    <a href="https://threekingsmurder.tebex.io" target="_blank">
-                        Open the Shop
-                    </a>
-                </p>
-            `;
-        }
-
-        if (tab === "updates") {
-            c.innerHTML = `
-                <h2>Updates / Changelog</h2>
-                <b>v1.2</b> – Added new weapons<br>
-                <b>v1.1</b> – Performance improvements<br>
-                <b>v1.0</b> – Server launch
-            `;
-        }
-
-        if (tab === "workshop") {
-            c.innerHTML = `
-                <h2>Steam Workshop</h2>
-                <p>
-                    <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3642423196" target="_blank">
-                        View Workshop Collection
-                    </a>
-                </p>
-            `;
-        }
-
-        if (tab === "group") {
-            c.innerHTML = `
-                <h2>Steam Group</h2>
-                <p>
-                    <a href="https://steamcommunity.com/groups/YOURGROUP" target="_blank">
-                        Join our Steam Group
-                    </a>
-                </p>
-            `;
-        }
-
-        c.style.opacity = 1;
-    }, 120);
+    if (page === "rules") {
+        c.innerHTML = `
+            <h2>Server Rules</h2>
+            <ul>
+                <li>No Racism</li>
+                <li>No Homophobia</li>
+                <li>No Spamming</li>
+                <li>No Cheats / Exploits</li>
+                <li>Do not crash the server</li>
+                <li>Be respectful to all players</li>
+                <li>Use common sense</li>
+                <li>No Advertising</li>
+                <li>No Metagaming</li>
+                <li>Loopholes are strictly prohibited. Do not try to find a way around the rules.</li>
+            </ul>
+        `;
+    }
 }
 
-function closeMOTD() {
-    document.body.style.display = "none";
-}
-
-window.onload = () => load("rules");
+window.onload = () => {
+    document.getElementById("steamname").innerText = getSteamName();
+    loadPage("motd", document.getElementById("btn-motd"));
+};
 </script>
 </head>
 
 <body>
 
-<div class="motd">
-    <div class="close" onclick="closeMOTD()">✕</div>
+<div class="header">
+    WELCOME TO THREE KINGS MURDER!
+    <div class="welcome">
+        Welcome back, <span id="steamname">Player</span>
+    </div>
+</div>
+
+<div class="container">
 
     <div class="sidebar">
-        <button onclick="load('rules')">Rules</button>
-        <button onclick="load('discord')">Discord</button>
-        <button onclick="load('shop')">Shop</button>
-        <button onclick="load('updates')">Updates</button>
-        <button onclick="load('workshop')">Workshop</button>
-        <button onclick="load('group')">Steam Group</button>
+
+        <div class="nav-item active" id="btn-motd" onclick="loadPage('motd', this)">
+            <div class="nav-icon">📰</div>
+            <div class="nav-text">
+                <div class="nav-title">MESSAGE OF THE DAY</div>
+                <div class="nav-desc">Server info & updates</div>
+            </div>
+        </div>
+
+        <div class="nav-item" onclick="loadPage('rules', this)">
+            <div class="nav-icon">📜</div>
+            <div class="nav-text">
+                <div class="nav-title">RULES</div>
+                <div class="nav-desc">Read before playing</div>
+            </div>
+        </div>
+
+        <div class="nav-item" onclick="openLink('https://support.discord.com/sorrynotyetE')">
+            <div class="nav-icon">💬</div>
+            <div class="nav-text">
+                <div class="nav-title">DISCORD</div>
+                <div class="nav-desc">Join the community!</div>
+            </div>
+        </div>
+
+        <div class="nav-item" onclick="openLink('https://threekingsmurder.tebex.io')">
+            <div class="nav-icon">💰</div>
+            <div class="nav-text">
+                <div class="nav-title">SHOP</div>
+                <div class="nav-desc">Want to support the server?</div>
+            </div>
+        </div>
+
+        <div class="nav-item" onclick="openLink('https://steamcommunity.com/sharedfiles/filedetails/?id=3642423196')">
+            <div class="nav-icon">🧩</div>
+            <div class="nav-text">
+                <div class="nav-title">WORKSHOP</div>
+                <div class="nav-desc">Missing addons?</div>
+            </div>
+        </div>
+
     </div>
 
     <div class="content" id="content">
         Loading...
     </div>
+
 </div>
 
 </body>
 </html>
-
