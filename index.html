@@ -1,221 +1,130 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Server MOTD</title>
+<meta charset="UTF-8">
+<title>Server Rules</title>
 
 <style>
     body {
         margin: 0;
-        height: 100vh;
+        padding: 0;
         font-family: Arial, sans-serif;
-        background: #0b0f14;
-        color: #d6d6d6;
-    }
-
-    /* Header */
-    .header {
-        height: 60px;
-        background: linear-gradient(90deg, #633aa5, #2c4f78);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 20px;
-        font-size: 24px;
-        font-weight: bold;
-        color: white;
-        letter-spacing: 1px;
-        box-sizing: border-box;
-    }
-
-    .welcome {
-        font-size: 13px;
-        font-weight: normal;
-        opacity: 0.85;
-    }
-
-    /* Layout */
-    .container {
-        display: flex;
-        height: calc(100vh - 60px);
-    }
-
-    /* Sidebar */
-    .sidebar {
-        width: 300px;
-        background: #151a21;
-        padding: 10px;
-        box-sizing: border-box;
-    }
-
-    .nav-item {
-        display: flex;
-        align-items: center;
-        padding: 12px;
-        margin-bottom: 6px;
-        cursor: pointer;
-        border-radius: 4px;
-        transition: background 0.15s;
-    }
-
-    .nav-item:hover {
-        background: #1e2633;
-    }
-
-    .nav-item.active {
-        background: #892fff;
-        color: white;
-    }
-
-    .nav-icon {
-        width: 36px;
-        text-align: center;
-        font-size: 20px;
-        opacity: 0.9;
-    }
-
-    .nav-text {
-        margin-left: 10px;
-    }
-
-    .nav-title {
-        font-size: 14px;
-        font-weight: bold;
-    }
-
-    .nav-desc {
-        font-size: 12px;
-        opacity: 0.7;
-    }
-
-    /* Content */
-    .content {
-        flex: 1;
-        padding: 25px;
         background: #0f141b;
-        box-sizing: border-box;
-        overflow-y: auto;
+        color: #e6e6e6;
+        line-height: 1.6;
     }
 
-    h2 {
-        margin-top: 0;
-        color: white;
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+
+    .header {
+        font-size: 32px;
+        font-weight: bold;
+        color: #ffffff;
+        margin-bottom: 8px;
+    }
+
+    .subheader {
+        color: #a0a8b8;
+        margin-bottom: 25px;
+    }
+
+    .rules {
+        background: #151a21;
+        border-radius: 6px;
+        padding: 25px;
+    }
+
+    .rule {
+        padding: 12px 0;
+        border-bottom: 1px solid #222a36;
+    }
+
+    .rule:last-child {
+        border-bottom: none;
+    }
+
+    .rule-number {
+        color: #8a2cff;
+        font-weight: bold;
+        margin-right: 8px;
+    }
+
+    .footer {
+        margin-top: 30px;
+        font-size: 13px;
+        color: #9aa2b1;
+        text-align: center;
     }
 </style>
-
-<script>
-/* Steam name greeting (safe fallback) */
-function getSteamName() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("name") || "Player";
-}
-
-function openLink(url) {
-    window.open(url, "_blank");
-}
-
-function setActive(el) {
-    document.querySelectorAll(".nav-item").forEach(e => e.classList.remove("active"));
-    el.classList.add("active");
-}
-
-function loadPage(page, el) {
-    setActive(el);
-    const c = document.getElementById("content");
-
-    if (page === "motd") {
-        c.innerHTML = `
-            <h2>Message of the Day</h2>
-            Welcome to <b>Three Kings Murder</b>.<br><br>
-            Please read the rules before playing and enjoy your stay.
-        `;
-    }
-
-    if (page === "rules") {
-        c.innerHTML = `
-            <h2>Server Rules</h2>
-            <ul>
-                <li>No Racism</li>
-                <li>No Homophobia</li>
-                <li>No Spamming</li>
-                <li>No Cheats / Exploits</li>
-                <li>Do not crash the server</li>
-                <li>Be respectful to all players</li>
-                <li>Use common sense</li>
-                <li>No Advertising</li>
-                <li>No Metagaming</li>
-                <li>Loopholes are strictly prohibited. Do not try to find a way around the rules.</li>
-            </ul>
-        `;
-    }
-}
-
-window.onload = () => {
-    document.getElementById("steamname").innerText = getSteamName();
-    loadPage("motd", document.getElementById("btn-motd"));
-};
-</script>
 </head>
 
 <body>
 
-<div class="header">
-    WELCOME TO THREE KINGS MURDER!
-    <div class="welcome">
-        Welcome back, <span id="steamname">Player</span>
-    </div>
-</div>
-
 <div class="container">
-
-    <div class="sidebar">
-
-        <div class="nav-item active" id="btn-motd" onclick="loadPage('motd', this)">
-            <div class="nav-icon">📰</div>
-            <div class="nav-text">
-                <div class="nav-title">MESSAGE OF THE DAY</div>
-                <div class="nav-desc">Server info & updates</div>
-            </div>
-        </div>
-
-        <div class="nav-item" onclick="loadPage('rules', this)">
-            <div class="nav-icon">📜</div>
-            <div class="nav-text">
-                <div class="nav-title">RULES</div>
-                <div class="nav-desc">Read before playing</div>
-            </div>
-        </div>
-
-        <div class="nav-item" onclick="openLink('https://support.discord.com/sorrynotyetE')">
-            <div class="nav-icon">💬</div>
-            <div class="nav-text">
-                <div class="nav-title">DISCORD</div>
-                <div class="nav-desc">Join the community!</div>
-            </div>
-        </div>
-
-        <div class="nav-item" onclick="openLink('https://threekingsmurder.tebex.io')">
-            <div class="nav-icon">💰</div>
-            <div class="nav-text">
-                <div class="nav-title">SHOP</div>
-                <div class="nav-desc">Want to support the server?</div>
-            </div>
-        </div>
-
-        <div class="nav-item" onclick="openLink('https://steamcommunity.com/sharedfiles/filedetails/?id=3642423196')">
-            <div class="nav-icon">🧩</div>
-            <div class="nav-text">
-                <div class="nav-title">WORKSHOP</div>
-                <div class="nav-desc">Missing addons?</div>
-            </div>
-        </div>
-
+    <div class="header">Server Rules</div>
+    <div class="subheader">
+        By playing on this server, you agree to follow all rules listed below.
     </div>
 
-    <div class="content" id="content">
-        Loading...
+    <div class="rules">
+        <div class="rule">
+            <span class="rule-number">1.</span>
+            No racism, hate speech, or discriminatory language of any kind.
+        </div>
+
+        <div class="rule">
+            <span class="rule-number">2.</span>
+            No homophobia or harassment based on sexual orientation or identity.
+        </div>
+
+        <div class="rule">
+            <span class="rule-number">3.</span>
+            No spamming, mic spam, chat flooding, or excessive noise.
+        </div>
+
+        <div class="rule">
+            <span class="rule-number">4.</span>
+            No cheats, exploits, scripts, or abuse of bugs.
+        </div>
+
+        <div class="rule">
+            <span class="rule-number">5.</span>
+            Do not intentionally crash, lag, or disrupt the server.
+        </div>
+
+        <div class="rule">
+            <span class="rule-number">6.</span>
+            Be respectful to all players and staff at all times.
+        </div>
+
+        <div class="rule">
+            <span class="rule-number">7.</span>
+            Use common sense. If something is clearly unfair or disruptive, don’t do it.
+        </div>
+
+        <div class="rule">
+            <span class="rule-number">8.</span>
+            No advertising other servers, communities, or services.
+        </div>
+
+        <div class="rule">
+            <span class="rule-number">9.</span>
+            No metagaming or using out-of-character information in-game.
+        </div>
+
+        <div class="rule">
+            <span class="rule-number">10.</span>
+            Loopholes are strictly prohibited. Attempting to bypass or bend rules will be punished.
+        </div>
     </div>
 
+    <div class="footer">
+        Rules are subject to change at any time. Ignorance of the rules is not an excuse.
+    </div>
 </div>
 
 </body>
